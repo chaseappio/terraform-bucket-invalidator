@@ -1,4 +1,8 @@
-variable "bucket_name" {
+variable "bucket_id" {
+  type = "string"
+}
+
+variable "bucket_arn" {
   type = "string"
 }
 

@@ -1,10 +1,6 @@
-data "aws_s3_bucket" "this" {
-  bucket = "${var.bucket_name}"
-}
-
 
 resource "aws_s3_bucket_notification" "this" {
-  bucket = "${data.aws_s3_bucket.this.id}"
+  bucket = "${var.bucket_id}"
 
  lambda_function {
     lambda_function_arn = "${aws_lambda_function.this.arn}"

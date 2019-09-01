@@ -2,7 +2,7 @@ resource "aws_lambda_permission" "this" {
   action        = "lambda:InvokeFunction"
   function_name = "${aws_lambda_function.this.arn}"
   principal     = "s3.amazonaws.com"
-  source_arn    = "${data.aws_s3_bucket.this.arn}"
+  source_arn    = "${var.bucket_arn}"
 }
 
 
