@@ -9,3 +9,8 @@ variable "bucket_arn" {
 variable "name" {
   type = "string"
 }
+
+variable "path_prefix" {
+  type = "string"
+  default = ""
+}

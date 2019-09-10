@@ -13,33 +13,28 @@ locals {
   base_path = "${path.module}/src"
 }
 
-data "local_file" "invalidatorpy" {
-  filename = "${local.base_path}/invalidator.py"
+data "template_file" "this" {
+  template = "${file("${local.base_path}/params.template.json")}"
+
+  vars = {
+    PATH_PREFIX = "${var.path_prefix}"
+  }
 }
 
-resource "local_file" "invalidatorpy" {
-  content = "${data.local_file.invalidatorpy.content}"
-  filename = "${local.base_path}/.archive/invalidator.py"
+resource "local_file" "params" {
+  content = "${data.template_file.this.rendered}"
+  filename = "${local.base_path}/params.json"
 }
 
-data "local_file" "initpy" {
-  filename = "${local.base_path}/__init__.py"
-}
-
-resource "local_file" "initpy" {
-  content = "${data.local_file.initpy.content}"
-  filename = "${local.base_path}/.archive/__init__.py"
-}
 
 data "archive_file" "this" {
   depends_on = [
-    "local_file.initpy",
-    "local_file.invalidatorpy"
+    "local_file.params"
   ]
 
   type = "zip"
-  output_path = "${local.base_path}/.archive.zip"
-  source_dir = "${local.base_path}/.archive"
+  output_path = "${local.base_path}/../.archive.zip"
+  source_dir = "${local.base_path}"
 }
 
 resource "aws_lambda_function" "this" {
@@ -48,9 +43,9 @@ resource "aws_lambda_function" "this" {
   source_code_hash = "${data.archive_file.this.output_base64sha256}"
 
   function_name    = "${var.name}"
-  runtime = "python3.7"
+  runtime = "nodejs8.10"
   role    = "${aws_iam_role.this.arn}"
   memory_size = 128
   timeout = 60
-  handler = "invalidator.lambda_handler"
+  handler = "main.handler"
 }
