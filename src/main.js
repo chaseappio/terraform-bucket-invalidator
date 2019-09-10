@@ -33,7 +33,7 @@ exports.handler = async function (event, context) {
 
             const origin = dist.Origins.Items[j];
 
-            if (origin.DomainName.indexOf(bucket) != 0) {
+            if (!origin.DomainName.startsWith(bucket)) {
                 continue;
             }
             
