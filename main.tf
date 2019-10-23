@@ -43,7 +43,7 @@ resource "aws_lambda_function" "this" {
   source_code_hash = "${data.archive_file.this.output_base64sha256}"
 
   function_name    = "${var.name}"
-  runtime = "nodejs8.10"
+  runtime = "nodejs10.x"
   role    = "${aws_iam_role.this.arn}"
   memory_size = 128
   timeout = 60
