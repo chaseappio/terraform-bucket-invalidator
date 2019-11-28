@@ -1,16 +1,16 @@
 variable "bucket_id" {
-  type = "string"
+  type = string
 }
 
 variable "bucket_arn" {
-  type = "string"
+  type = string
 }
 
 variable "name" {
-  type = "string"
+  type = string
 }
 
 variable "path_prefix" {
-  type = "string"
+  type = string
   default = ""
 }

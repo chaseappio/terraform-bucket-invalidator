@@ -1,8 +1,8 @@
 resource "aws_lambda_permission" "this" {
   action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.this.arn}"
+  function_name = aws_lambda_function.this.arn
   principal     = "s3.amazonaws.com"
-  source_arn    = "${var.bucket_arn}"
+  source_arn    = var.bucket_arn
 }
 
 
@@ -50,6 +50,6 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "this" {
-  role = "${aws_iam_role.this.name}"
-  policy_arn = "${aws_iam_policy.this.arn}"
+  role = aws_iam_role.this.name
+  policy_arn = aws_iam_policy.this.arn
 }
